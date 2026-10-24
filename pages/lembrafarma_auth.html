@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LembraFarma - Autenticação</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            700: '#0f766e',
+                            800: '#005b60',
+                            900: '#0d3b43',
+                            hover: '#092d33'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f3f6f8;
+            font-family: 'Inter', sans-serif;
+        }
+        .input-field {
+            transition: all 0.2s ease-in-out;
+        }
+        .input-field:focus {
+            border-color: #005b60;
+            box-shadow: 0 0 0 3px rgba(0, 91, 96, 0.15);
+        }
+        /* Custom scrollbar if needed */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
+
+    <!-- Notification Toast Container -->
+    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-x-full opacity-0 transition-all duration-300 ease-in-out bg-white border-l-4 border-brand-800 shadow-xl rounded-r-lg p-4 flex items-center gap-3 max-w-md">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-xl"></i>
+        <div>
+            <h4 id="toast-title" class="text-sm font-semibold text-gray-800">Notificação</h4>
+            <p id="toast-message" class="text-xs text-gray-600">Ação realizada com sucesso.</p>
+        </div>
+    </div>
+
+    <!-- Main Container Card -->
+    <div class="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[640px] border border-gray-100">
+        
+        <!-- Left Branding Panel (Visible on Desktop/Tablet) -->
+        <div class="lg:col-span-5 bg-brand-900 p-8 sm:p-12 flex flex-col justify-between text-white relative overflow-hidden">
+            <!-- Background Decorative Pills/Glows -->
+            <div class="absolute -top-16 -left-16 w-48 h-48 bg-brand-800 opacity-40 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-teal-500 opacity-20 rounded-full blur-3xl"></div>
+
+            <!-- Top Logo Header -->
+            <div class="relative z-10 flex items-center gap-3">
+                <img src="../assets/Logo.png" alt="" class="w-10 h-10 rounded-2xl bg-white object-contain p-1 shadow-lg">
+                <span class="text-2xl font-bold tracking-tight text-white">Lembra<span class="font-normal text-teal-300">Farma</span></span>
+            </div>
+
+            <!-- Center Brand Info -->
+            <div class="relative z-10 my-10 lg:my-0 space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-teal-200 text-xs font-medium">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Sistema de Gestão & Lembretes</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold leading-tight">
+                    Fidelize clientes e otimize reposições de remédios.
+                </h2>
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    Acompanhe históricos de compras, automatize lembretes de retenção via WhatsApp e simplifique a rotina da sua farmácia.
+                </p>
+
+                <!-- Micro Stats Badge -->
+                <div class="pt-4 grid grid-cols-2 gap-4 border-t border-white/10">
+                    <div>
+                        <p class="text-2xl font-bold text-teal-300">+98%</p>
+                        <p class="text-xs text-gray-300">Taxa de retenção</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-teal-300">Auto</p>
+                        <p class="text-xs text-gray-300">Lembretes Inteligentes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Info -->
+            <div class="relative z-10 text-xs text-gray-400">
+                &copy; 2026 LembraFarma. Todos os direitos reservados.
+            </div>
+        </div>
+
+        <!-- Right Form Section -->
+        <div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-center bg-white relative">
+
+            <!-- Mobile Top Logo (Only visible on small screens) -->
+            <div class="lg:hidden flex items-center gap-2.5 mb-8">
+                <img src="../assets/Logo.png" alt="" class="w-9 h-9 rounded-xl bg-white object-contain p-1 shadow-md">
+                <span class="text-xl font-bold tracking-tight text-brand-900">Lembra<span class="text-teal-600 font-normal">Farma</span></span>
+            </div>
+
+            <!-- Header Toggle Tabs -->
+            <div class="flex items-center bg-gray-100/80 p-1.5 rounded-2xl mb-8 max-w-xs border border-gray-200/60">
+                <button id="tab-login-btn" onclick="switchTab('login')" class="flex-1 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 text-brand-900 bg-white shadow-sm">
+                    Acessar Conta
+                </button>
+                <button id="tab-register-btn" onclick="switchTab('register')" class="flex-1 py-2 text-xs sm:text-sm font-medium rounded-xl transition-all duration-200 text-gray-500 hover:text-brand-900">
+                    Cadastrar-se
+                </button>
+            </div>
+
+            <!-- ================= VIEW 1: TELA DE LOGIN ================= -->
+            <div id="login-view" class="space-y-6 transition-all duration-300">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900">Bem-vindo de volta!</h3>
+                    <p class="text-sm text-gray-500 mt-1">Insira suas credenciais para acessar o painel.</p>
+                </div>
+
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <!-- Email field -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">E-mail Corporativo</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-regular fa-envelope text-sm"></i>
+                            </div>
+                            <input type="email" required placeholder="exemplo@farmacia.com.br" class="input-field w-full pl-10 pr-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                        </div>
+                    </div>
+
+                    <!-- Password field -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider">Senha</label>
+                            <a href="#" onclick="showToast('Link de recuperação enviado ao seu e-mail.', 'info'); return false;" class="text-xs font-medium text-brand-800 hover:underline">Esqueceu a senha?</a>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-lock text-sm"></i>
+                            </div>
+                            <input id="login-password" type="password" required placeholder="••••••••" class="input-field w-full pl-10 pr-10 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                            <button type="button" onclick="togglePasswordVisibility('login-password', 'toggle-icon-login')" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600">
+                                <i id="toggle-icon-login" class="fa-regular fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember me Checkbox -->
+                    <div class="flex items-center pt-1">
+                        <input id="remember-me" type="checkbox" class="w-4 h-4 text-brand-800 rounded border-gray-300 focus:ring-brand-800 cursor-pointer">
+                        <label for="remember-me" class="ml-2.5 text-xs text-gray-600 cursor-pointer">Lembrar deste dispositivo</label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full mt-2 py-3.5 px-4 bg-brand-800 hover:bg-brand-hover text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 text-sm flex items-center justify-center gap-2">
+                        <span>Entrar no Painel</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </form>
+
+                <!-- Switch Footer -->
+                <p class="text-center text-xs text-gray-500 pt-2">
+                    Ainda não possui uma conta?
+                    <button onclick="switchTab('register')" class="font-semibold text-brand-800 hover:underline">Cadastre sua farmácia</button>
+                </p>
+            </div>
+
+            <!-- ================= VIEW 2: TELA DE CADASTRE-SE ================= -->
+            <div id="register-view" class="space-y-5 hidden transition-all duration-300">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900">Cadastre sua Farmácia</h3>
+                    <p class="text-sm text-gray-500 mt-1">Preencha os dados da sua empresa para começar.</p>
+                </div>
+
+                <form onsubmit="handleRegister(event)" class="space-y-3.5">
+                    
+                    <!-- Nome da Farmácia -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Nome da Farmácia / Razão Social</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-store text-sm"></i>
+                            </div>
+                            <input type="text" required placeholder="Ex: Farmácia São Paulo Ltda" class="input-field w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                        </div>
+                    </div>
+
+                    <!-- CNPJ Field (Crucial requirement) -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">CNPJ (Pessoa Jurídica)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-id-card text-sm"></i>
+                            </div>
+                            <input id="cnpj-input" type="text" maxlength="18" required placeholder="00.000.000/0001-00" oninput="maskCNPJ(this)" class="input-field w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                        </div>
+                    </div>
+
+                    <!-- Row: Email and Phone -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">E-mail Corporativo</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                    <i class="fa-regular fa-envelope text-sm"></i>
+                                </div>
+                                <input type="email" required placeholder="contato@farmacia.com" class="input-field w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                            </div>
+                        </div>
+
+                        <!-- Phone / WhatsApp -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Telefone / WhatsApp</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                </div>
+                                <input id="phone-input" type="text" maxlength="15" required placeholder="(85) 99999-9999" oninput="maskPhone(this)" class="input-field w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row: Password & Confirmation -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <!-- Senha -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Senha</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                    <i class="fa-solid fa-lock text-sm"></i>
+                                </div>
+                                <input id="reg-password" type="password" required placeholder="Mínimo 8 caracteres" class="input-field w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                            </div>
+                        </div>
+
+                        <!-- Confirmar Senha -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Confirmar Senha</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                    <i class="fa-solid fa-shield-check text-sm"></i>
+                                </div>
+                                <input id="reg-confirm-password" type="password" required placeholder="Repita a senha" class="input-field w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms Checkbox -->
+                    <div class="flex items-start pt-1">
+                        <input id="terms" type="checkbox" required class="mt-0.5 w-4 h-4 text-brand-800 rounded border-gray-300 focus:ring-brand-800 cursor-pointer">
+                        <label for="terms" class="ml-2.5 text-xs text-gray-600 leading-relaxed">
+                            Li e aceito os <a href="#" class="text-brand-800 font-semibold hover:underline">Termos de Uso</a> e a <a href="#" class="text-brand-800 font-semibold hover:underline">Política de Privacidade</a> da LembraFarma.
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full mt-2 py-3 px-4 bg-brand-800 hover:bg-brand-hover text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check text-xs"></i>
+                        <span>Criar Conta da Farmácia</span>
+                    </button>
+                </form>
+
+                <!-- Switch Footer -->
+                <p class="text-center text-xs text-gray-500 pt-1">
+                    Já possui uma conta?
+                    <button onclick="switchTab('login')" class="font-semibold text-brand-800 hover:underline">Faça login</button>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Interactions & Input Masks -->
+    <script>
+        // Switch between Login and Registration views smoothly
+        function switchTab(tab) {
+            const loginView = document.getElementById('login-view');
+            const registerView = document.getElementById('register-view');
+            const loginBtn = document.getElementById('tab-login-btn');
+            const registerBtn = document.getElementById('tab-register-btn');
+
+            if (tab === 'login') {
+                loginView.classList.remove('hidden');
+                registerView.classList.add('hidden');
+
+                // Active styling
+                loginBtn.className = "flex-1 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 text-brand-900 bg-white shadow-sm";
+                registerBtn.className = "flex-1 py-2 text-xs sm:text-sm font-medium rounded-xl transition-all duration-200 text-gray-500 hover:text-brand-900";
+            } else {
+                loginView.classList.add('hidden');
+                registerView.classList.remove('hidden');
+
+                // Active styling
+                registerBtn.className = "flex-1 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-200 text-brand-900 bg-white shadow-sm";
+                loginBtn.className = "flex-1 py-2 text-xs sm:text-sm font-medium rounded-xl transition-all duration-200 text-gray-500 hover:text-brand-900";
+            }
+        }
+
+        // Toggle password visibility
+        function togglePasswordVisibility(fieldId, iconId) {
+            const input = document.getElementById(fieldId);
+            const icon = document.getElementById(iconId);
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash text-sm';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-regular fa-eye text-sm';
+            }
+        }
+
+        // CNPJ Input Mask (00.000.000/0001-00)
+        function maskCNPJ(input) {
+            let v = input.value.replace(/\D/g, "");
+            if (v.length > 14) v = v.substring(0, 14);
+
+            v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+            v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+            v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+            v = v.replace(/(\d{4})(\d)/, "$1-$2");
+
+            input.value = v;
+        }
+
+        // Phone Input Mask ((00) 00000-0000)
+        function maskPhone(input) {
+            let v = input.value.replace(/\D/g, "");
+            if (v.length > 11) v = v.substring(0, 11);
+
+            v = v.replace(/^(\d{2})(\d)/, "($1) $2");
+            v = v.replace(/(\d{5})(\d)/, "$1-$2");
+
+            input.value = v;
+        }
+
+        // Show Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMessage = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMessage.textContent = message;
+
+            if (type === 'success') {
+                toastTitle.textContent = 'Sucesso!';
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-500 text-xl';
+            } else if (type === 'error') {
+                toastTitle.textContent = 'Atenção!';
+                toastIcon.className = 'fa-solid fa-circle-exclamation text-rose-500 text-xl';
+            } else {
+                toastTitle.textContent = 'Informação';
+                toastIcon.className = 'fa-solid fa-circle-info text-sky-500 text-xl';
+            }
+
+            // Animate in
+            toast.classList.remove('translate-x-full', 'opacity-0');
+            toast.classList.add('translate-x-0', 'opacity-100');
+
+            // Hide after 3.5 seconds
+            setTimeout(() => {
+                toast.classList.remove('translate-x-0', 'opacity-100');
+                toast.classList.add('translate-x-full', 'opacity-0');
+            }, 3500);
+        }
+
+        // Form Submission Handlers
+        function handleLogin(event) {
+            event.preventDefault();
+            showToast('Login efetuado! Redirecionando para o painel...', 'success');
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const pass = document.getElementById('reg-password').value;
+            const confirmPass = document.getElementById('reg-confirm-password').value;
+
+            if (pass !== confirmPass) {
+                showToast('As senhas digitadas não coincidem.', 'error');
+                return;
+            }
+
+            showToast('Cadastro da farmácia efetuado com sucesso!', 'success');
+            setTimeout(() => {
+                switchTab('login');
+            }, 1800);
+        }
+
+        if (window.location.hash === '#cadastro') {
+            switchTab('register');
+        }
+    </script>
+</body>
+</html>
