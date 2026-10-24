@@ -1,5 +1,6 @@
 # LembraFarma
-
+Esse nosso Projeto FrontEnd
+Lembrafarma é um projeto para gerencimento de medicamentos recorrentes para clientes
 ## Estrutura
 
 - `Index.html`: página inicial.
