@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes | LembraFarma</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navigation" aria-label="Navegação principal">
+            <a class="brand" href="../Index.html" aria-label="LembraFarma - início">
+                <img src="../assets/Logo.png" alt="">
+                <span>LembraFarma</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="../Index.html">Início</a>
+                <a href="Funcionalidades.html">Funcionalidades</a>
+                <a href="Medicamentos.html">Cadastro de Medicamentos</a>
+                <a href="Planos.html">Planos</a>
+                <a href="Sobre.html">Sobre</a>
+                <a href="Contato.html">Contato</a>
+            </div>
+
+            <div class="nav-actions">
+                <a class="login-link" href="lembrafarma_auth.html">Login</a>
+                <a class="button button-small" href="lembrafarma_auth.html#cadastro">Cadastre-se</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <section class="page-panel page-panel-xl">
+            <div class="page-heading">
+                <p class="eyebrow">Clientes</p>
+                <h1>Cadastro de clientes</h1>
+            </div>
+
+            <div class="two-column-layout">
+                <form id="cliente-form" class="form-card">
+                    <div class="field-group">
+                        <label for="cliente-nome">Nome completo</label>
+                        <input id="cliente-nome" name="nome" type="text" maxlength="120" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="cliente-cpf">CPF</label>
+                        <input id="cliente-cpf" name="cpf" type="text" inputmode="numeric" maxlength="14" placeholder="000.000.000-00">
+                    </div>
+
+                    <div class="field-group">
+                        <label for="cliente-telefone">Telefone</label>
+                        <input id="cliente-telefone" name="telefone" type="text" maxlength="15" placeholder="(00) 00000-0000">
+                    </div>
+
+                    <div class="field-group">
+                        <label for="cliente-email">E-mail</label>
+                        <input id="cliente-email" name="email" type="email" placeholder="cliente@email.com">
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="button" type="submit">Salvar cliente</button>
+                        <a class="button button-outline" href="Medicamentos.html">Voltar para medicamentos</a>
+                    </div>
+                </form>
+
+                <aside class="info-card">
+                    <h2>Clientes cadastrados</h2>
+                    <div id="lista-clientes" class="client-list"></div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const CLIENTES_KEY = 'lembrafarma.clientes';
+
+        function getClientes() {
+            try {
+                const dados = localStorage.getItem(CLIENTES_KEY);
+                return dados ? JSON.parse(dados) : [];
+            } catch (error) {
+                console.error('Erro ao carregar clientes', error);
+                return [];
+            }
+        }
+
+        function salvarClientes(clientes) {
+            localStorage.setItem(CLIENTES_KEY, JSON.stringify(clientes));
+        }
+
+        function renderClientes() {
+            const lista = document.getElementById('lista-clientes');
+            const clientes = getClientes();
+
+            if (!clientes.length) {
+                lista.innerHTML = '<p class="empty-state-message">Ainda não há clientes cadastrados.</p>';
+                return;
+            }
+
+            lista.innerHTML = clientes.map((cliente) => `
+                <div class="client-item">
+                    <strong>${cliente.nome}</strong>
+                    <span>${cliente.cpf || 'CPF não informado'}</span>
+                    <small>${cliente.telefone || cliente.email || 'Contato não informado'}</small>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('cliente-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const form = event.currentTarget;
+            const nome = form.nome.value.trim();
+            const cpf = form.cpf.value.trim();
+            const telefone = form.telefone.value.trim();
+            const email = form.email.value.trim();
+
+            if (!nome) {
+                alert('Informe o nome do cliente.');
+                return;
+            }
+
+            const clientes = getClientes();
+            const novoCliente = {
+                id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+                nome,
+                cpf,
+                telefone,
+                email,
+            };
+
+            clientes.push(novoCliente);
+            salvarClientes(clientes);
+            renderClientes();
+            form.reset();
+            alert('Cliente cadastrado com sucesso.');
+        });
+
+        document.getElementById('cliente-cpf').addEventListener('input', (event) => {
+            const valor = event.target.value.replace(/\D/g, '').slice(0, 11);
+            event.target.value = valor.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3').replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+        });
+
+        document.getElementById('cliente-telefone').addEventListener('input', (event) => {
+            const valor = event.target.value.replace(/\D/g, '').slice(0, 11);
+            event.target.value = valor.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2');
+        });
+
+        renderClientes();
+    </script>
+</body>
+</html>
