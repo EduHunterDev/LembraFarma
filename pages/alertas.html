@@ -44,9 +44,9 @@ function carregarAlertas(){
   let temAlerta = false;
 
   clientes.forEach(c => {
-    const dataCompra = new Date(c.dataCompra);
-    const diasDuracao = c.qtd / c.posologia;
-    const dataFim = new Date(dataCompra);
+    const dataCompra = new Date(c.dataCompra);//data da compra
+    const diasDuracao = c.qtd / c.posologia;//ex: 30 comprimidos / 1 por dia = 30 dias de duração
+    const dataFim = new Date(dataCompra);//data da compra + 30 dias
     dataFim.setDate(dataCompra.getDate() + diasDuracao);
     const diff = Math.ceil((dataFim - hoje) / (1000*60*60*24));
 
