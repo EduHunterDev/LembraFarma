@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertas | LembraFarma</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navigation" aria-label="Navegação principal">
+            <a class="brand" href="../Index.html" aria-label="LembraFarma - início">
+                <img src="../assets/Logo.png" alt="">
+                <span>LembraFarma</span>
+            </a>
+            <div class="nav-links">
+                <a href="../Index.html">Início</a>
+                <a href="Funcionalidades.html">Funcionalidades</a>
+                <a href="Planos.html">Planos</a>
+                <a href="Sobre.html">Sobre</a>
+                <a href="Contato.html">Contato</a>
+                <a href="Alertas.html" aria-current="page">Alertas</a>
+            </div>
+            <div class="nav-actions">
+                <a class="login-link" href="lembrafarma_auth.html">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container" style="padding: 40px;">
+        <h1>🔔 Alertas de Recompra</h1>
+        <p>Clientes que precisam ser avisados nos próximos 3 dias</p>
+        <div id="lista-alertas"></div>
+    </main>
+
+<script>
+const clientes = JSON.parse(localStorage.getItem('clientes')) || [
+  {nome: 'Maria Silva', medicamento: 'Losartana 50mg', qtd: 30, posologia: 1, dataCompra: '2026-09-28', whats: '85999999999'}
+];
+
+function carregarAlertas(){
+  const container = document.getElementById('lista-alertas');
+  const hoje = new Date();
+  let temAlerta = false;
+
+  clientes.forEach(c => {
+    const dataCompra = new Date(c.dataCompra);//data da compra
+    const diasDuracao = c.qtd / c.posologia;//ex: 30 comprimidos / 1 por dia = 30 dias de duração
+    const dataFim = new Date(dataCompra);//data da compra + 30 dias
+    dataFim.setDate(dataCompra.getDate() + diasDuracao);
+    const diff = Math.ceil((dataFim - hoje) / (1000*60*60*24));
+
+    if(diff <= 3){
+      temAlerta = true;
+      container.innerHTML += `
+        <div style="border:1px solid #ccc; padding:15px; margin:10px 0; border-radius:8px; background:#fff3cd">
+          <strong>⚠️ ${c.nome}</strong> - ${c.medicamento}<br>
+          Acaba em ${diff} dia(s) (${dataFim.toLocaleDateString()})<br>
+          <a href="https://wa.me/55${c.whats}?text=Olá ${c.nome}, seu ${c.medicamento} está acabando!" target="_blank">
+            <button style="background:#25D366; color:white; border:none; padding:8px 15px; border-radius:20px; cursor:pointer; margin-top:5px;">📱 Enviar WhatsApp</button>
+          </a>
+        </div>
+      `;
+    }
+  });
+  if(!temAlerta) container.innerHTML = "<p>✅ Nenhum alerta para hoje!</p>";
+}
+carregarAlertas();
+</script>
+</body>
+</html>
