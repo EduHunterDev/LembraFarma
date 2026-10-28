@@ -168,7 +168,7 @@ function carregarRecompras() {
             const status = document.createElement("small");
             status.textContent = `Contato: ${compra.contato}`;
 
-            item.append(titulo, ,detalhes, data, status);
+            item.append(titulo, detalhes, data, status);
             lista.appendChild(item);
         });
 }
