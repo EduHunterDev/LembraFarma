@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/auth.js" defer></script>
     <script>
         tailwind.config = {
             theme: {
@@ -67,7 +68,7 @@
         </div>
     </div>
 
-    <!-- Main Container Card -->
+    <!-- Main card -->
     <div class="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[640px] border border-gray-100">
         
         <!-- Left Branding Panel (Visible on Desktop/Tablet) -->
@@ -76,13 +77,12 @@
             <div class="absolute -top-16 -left-16 w-48 h-48 bg-brand-800 opacity-40 rounded-full blur-2xl"></div>
             <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-teal-500 opacity-20 rounded-full blur-3xl"></div>
 
-            <!-- Top Logo Header -->
+           <!-- Logo -->
             <div class="relative z-10 flex items-center gap-3">
                 <img src="../assets/Logo.png" alt="" class="w-10 h-10 rounded-2xl bg-white object-contain p-1 shadow-lg">
                 <span class="text-2xl font-bold tracking-tight text-white">Lembra<span class="font-normal text-teal-300">Farma</span></span>
             </div>
 
-            <!-- Center Brand Info -->
             <div class="relative z-10 my-10 lg:my-0 space-y-4">
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-teal-200 text-xs font-medium">
                     <i class="fa-solid fa-shield-halved"></i>
@@ -94,8 +94,7 @@
                 <p class="text-gray-300 text-sm leading-relaxed">
                     Acompanhe históricos de compras, automatize lembretes de retenção via WhatsApp e simplifique a rotina da sua farmácia.
                 </p>
-
-                <!-- Micro Stats Badge -->
+              
                 <div class="pt-4 grid grid-cols-2 gap-4 border-t border-white/10">
                     <div>
                         <p class="text-2xl font-bold text-teal-300">+98%</p>
@@ -108,7 +107,7 @@
                 </div>
             </div>
 
-            <!-- Footer Info -->
+            <!-- Footer -->
             <div class="relative z-10 text-xs text-gray-400">
                 &copy; 2026 LembraFarma. Todos os direitos reservados.
             </div>
@@ -140,7 +139,7 @@
                     <p class="text-sm text-gray-500 mt-1">Insira suas credenciais para acessar o painel.</p>
                 </div>
 
-                <form onsubmit="handleLogin(event)" class="space-y-4">
+                <form id="login-form" class="space-y-4">
                     <!-- Email field -->
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">E-mail Corporativo</label>
@@ -148,7 +147,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                                 <i class="fa-regular fa-envelope text-sm"></i>
                             </div>
-                            <input type="email" required placeholder="exemplo@farmacia.com.br" class="input-field w-full pl-10 pr-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                            <input id="login-email" type="email" required autocomplete="username" placeholder="exemplo@farmacia.com.br" class="input-field w-full pl-10 pr-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
                         </div>
                     </div>
 
@@ -162,14 +161,14 @@
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                                 <i class="fa-solid fa-lock text-sm"></i>
                             </div>
-                            <input id="login-password" type="password" required placeholder="••••••••" class="input-field w-full pl-10 pr-10 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
+                            <input id="login-password" type="password" required autocomplete="current-password" placeholder="••••••••" class="input-field w-full pl-10 pr-10 py-3 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:bg-white">
                             <button type="button" onclick="togglePasswordVisibility('login-password', 'toggle-icon-login')" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600">
                                 <i id="toggle-icon-login" class="fa-regular fa-eye text-sm"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Remember me Checkbox -->
+                    <!-- Esqueci -->
                     <div class="flex items-center pt-1">
                         <input id="remember-me" type="checkbox" class="w-4 h-4 text-brand-800 rounded border-gray-300 focus:ring-brand-800 cursor-pointer">
                         <label for="remember-me" class="ml-2.5 text-xs text-gray-600 cursor-pointer">Lembrar deste dispositivo</label>
@@ -220,7 +219,7 @@
                         </div>
                     </div>
 
-                    <!-- Row: Email and Phone -->
+                    <!-- Email-->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         <!-- Email -->
                         <div>
@@ -233,7 +232,7 @@
                             </div>
                         </div>
 
-                        <!-- Phone / WhatsApp -->
+                        <!-- WhatsApp -->
                         <div>
                             <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">Telefone / WhatsApp</label>
                             <div class="relative">
@@ -245,7 +244,7 @@
                         </div>
                     </div>
 
-                    <!-- Row: Password & Confirmation -->
+                    <!-- Password -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         <!-- Senha -->
                         <div>
@@ -270,7 +269,7 @@
                         </div>
                     </div>
 
-                    <!-- Terms Checkbox -->
+                    <!-- Aceitar termos -->
                     <div class="flex items-start pt-1">
                         <input id="terms" type="checkbox" required class="mt-0.5 w-4 h-4 text-brand-800 rounded border-gray-300 focus:ring-brand-800 cursor-pointer">
                         <label for="terms" class="ml-2.5 text-xs text-gray-600 leading-relaxed">
@@ -391,11 +390,6 @@
         }
 
         // Form Submission Handlers
-        function handleLogin(event) {
-            event.preventDefault();
-            showToast('Login efetuado! Redirecionando para o painel...', 'success');
-        }
-
         function handleRegister(event) {
             event.preventDefault();
             const pass = document.getElementById('reg-password').value;

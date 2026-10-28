@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#eaf4f7">
+    <title>Painel | LembraFarma</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eaf4f7;
+            color: #d7eff2;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px 12px;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: calc(100vh - 48px);
+            overflow: hidden;
+            border-radius: 14px;
+            background: #fff;
+        }
+
+        .dashboard-sidebar {
+            display: flex;
+            width: 202px;
+            flex: 0 0 202px;
+            flex-direction: column;
+            padding: 17px 9px;
+            background: linear-gradient(160deg, #003a43 0%, #002d35 100%);
+        }
+
+        .dashboard-brand {
+            display: flex;
+            min-height: 50px;
+            align-items: center;
+            gap: 9px;
+            margin: 0 10px 24px;
+            color: #37e0dc;
+            font-size: 15px;
+            font-weight: 650;
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+        }
+
+        .dashboard-brand img {
+            width: 39px;
+            height: 39px;
+            flex: 0 0 39px;
+            object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(77%) sepia(54%) saturate(1137%) hue-rotate(119deg) brightness(96%) contrast(101%);
+        }
+
+        .dashboard-nav {
+            display: grid;
+            gap: 4px;
+        }
+
+        .dashboard-nav a {
+            display: flex;
+            min-height: 42px;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px;
+            border-radius: 8px;
+            color: #c2e0e4;
+            font-size: 13px;
+            font-weight: 550;
+            text-decoration: none;
+            transition: background-color 160ms ease, color 160ms ease;
+        }
+
+        .dashboard-nav a:hover,
+        .dashboard-nav a:focus-visible {
+            background: rgba(32, 194, 187, 0.16);
+            color: #fff;
+            outline: none;
+        }
+
+        .dashboard-nav a[aria-current="page"] {
+            background: linear-gradient(100deg, #078b84, #08746f);
+            color: #fff;
+        }
+
+        .dashboard-nav svg {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 1.8;
+        }
+
+        .dashboard-content {
+            flex: 1;
+            min-width: 0;
+            background: #fff;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+
+            .dashboard {
+                min-height: calc(100vh - 24px);
+            }
+
+            .dashboard-sidebar {
+                width: 68px;
+                flex-basis: 68px;
+                align-items: center;
+                padding: 15px 7px;
+            }
+
+            .dashboard-brand {
+                justify-content: center;
+                margin: 0 0 22px;
+            }
+
+            .dashboard-brand img {
+                width: 36px;
+                height: 36px;
+                flex-basis: 36px;
+            }
+
+            .dashboard-brand span,
+            .dashboard-nav a span {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                clip-path: inset(50%);
+            }
+
+            .dashboard-nav {
+                width: 100%;
+            }
+
+            .dashboard-nav a {
+                justify-content: center;
+                padding: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="dashboard-sidebar">
+            <a class="dashboard-brand" href="../Index.html" aria-label="LembraFarma - início">
+                <img src="../assets/Logo.png" alt="">
+                <span>LembraFarma</span>
+            </a>
+
+            <nav class="dashboard-nav" aria-label="Menu do painel">
+                <a href="../Index.html" aria-current="page" aria-label="Dashoard">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7"></path><path d="M5 9v11h14V9M9 20v-6h6v6"></path></svg>
+                    <span>Dashoard</span>
+                </a>
+                <a href="#" aria-label="Clientes">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="10" cy="7" r="4"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span>Clientes</span>
+                </a>
+                <a href="#" aria-label="Produtos">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"></rect><path d="M8 3v4m8-4v4M4 10h16"></path><path d="M12 13v5m-2.5-2.5h5"></path></svg>
+                    <span>Produtos</span>
+                </a>
+                <a href="#" aria-label="Compras">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2 3h2l2.7 12.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L22 7H5"></path></svg>
+                    <span>Compras</span>
+                </a>
+                <a href="#" aria-label="Lembretes">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+                    <span>Lembretes</span>
+                </a>
+            
+                <a href="#" aria-label="Relatórios">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6M8 18v-3m4 3v-6m4 6v-8"></path></svg>
+                    <span>Relatórios</span>
+                </a>
+                <a href="#" aria-label="Configurações">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"></path><path d="m19.4 15 .1.1 1.4 1.1-1.5 2.6-1.7-.7a8 8 0 0 1-1.6.9l-.3 1.8h-3l-.3-1.8a8 8 0 0 1-1.6-.9l-1.7.7-1.5-2.6 1.4-1.1a7 7 0 0 1 0-1.9l-1.4-1.1 1.5-2.6 1.7.7a8 8 0 0 1 1.6-.9l.3-1.8h3l.3 1.8a8 8 0 0 1 1.6.9l1.7-.7 1.5 2.6-1.4 1.1a7 7 0 0 1-.1 1.8Z"></path></svg>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-content" aria-label="Área principal do painel"></main>
+    </div>
+    <script>
+        if (sessionStorage.getItem('lembrafarma.authenticated') !== 'true') {
+            window.location.replace('../pages/lembrafarma_auth.html');
+        }
+    </script>
+</body>
+</html>
