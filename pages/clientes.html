@@ -8,5 +8,10 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
+  <script>
+    if (sessionStorage.getItem('lembrafarma.authenticated') !== 'true') {
+      window.location.replace('lembrafarma_auth.html');
+    }
+  </script>
 </body>
 </html>
