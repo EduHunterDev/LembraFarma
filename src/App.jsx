@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
+
 const plans = [
   {
     id: "basic",
     name: "Básico",
     price: "49.90",
     formattedPrice: "R$ 49,90",
+    href: "https://link.infinitepay.io/eduhunterplay/VC1D-hBkhsP17zb-49,90",
     description: "Ideal para pequenos negócios que estão começando.",
     benefits: [
       "Até 500 clientes cadastrados",
@@ -20,6 +22,7 @@ const plans = [
     name: "Intermediário",
     price: "99.90",
     formattedPrice: "R$ 99,90",
+    href: "https://link.infinitepay.io/eduhunterplay/VC1D-nTHBJoLuUt-99,90",
     description: "Mais recursos para farmácias que desejam crescer.",
     benefits: [
       "Até 1.500 clientes cadastrados",
@@ -34,6 +37,7 @@ const plans = [
     name: "Profissional",
     price: "199.90",
     formattedPrice: "R$ 199,90",
+    href: "https://link.infinitepay.io/eduhunterplay/VC1D-fueaUoyTHt-199,90",
     description: "Para farmácias que buscam mais controle e eficiência.",
     benefits: [
       "Maior capacidade de gerenciamento de clientes",
@@ -113,6 +117,7 @@ function HomePage() {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [pathname]);
+
 
   return (
     <>
@@ -281,7 +286,7 @@ function HomePage() {
                   </ul>
                   <a
                     className="button button-small"
-                    href="#"
+                    href={plan.href}
                   >
                     Assinar
                   </a>
@@ -321,6 +326,7 @@ function HomePage() {
             </div>
           </section>
         </section>
+        
       </main>
 
       <footer className="site-footer">
