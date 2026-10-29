@@ -5,6 +5,7 @@ const {
   validarIntervaloCompra,
   encontrarClientesPorTermo,
   montarPayloadMedicamento,
+  deveExibirCampoApi,
 } = require('../js/medicamentos-core.js');
 
 test('normalizarTexto remove acentos e deixa o texto em minúsculas', () => {
@@ -66,4 +67,10 @@ test('montarPayloadMedicamento exige cliente e medicamento validados', () => {
       intervaloCompra: '30'
     });
   }, /cliente|medicamento/i);
+});
+
+test('deveExibirCampoApi mostra o campo apenas quando a chave não estiver registrada', () => {
+  assert.equal(deveExibirCampoApi(''), true);
+  assert.equal(deveExibirCampoApi('   '), true);
+  assert.equal(deveExibirCampoApi('abc123'), false);
 });

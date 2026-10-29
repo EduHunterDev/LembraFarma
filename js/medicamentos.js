@@ -71,6 +71,29 @@ function setApiKey(chave) {
     localStorage.setItem(STORAGE_KEYS.apiKey, String(chave).trim());
 }
 
+function mostrarCampoApi(exibir) {
+    const caixa = document.querySelector('.api-config-box');
+    if (!caixa) {
+        return;
+    }
+
+    caixa.classList.toggle('is-hidden', !exibir);
+}
+
+function atualizarVisibilidadeCampoApi() {
+    const chave = getApiKey();
+    const deveExibir = typeof window.MedicamentosCore?.deveExibirCampoApi === 'function'
+        ? window.MedicamentosCore.deveExibirCampoApi(chave)
+        : !String(chave || '').trim();
+
+    mostrarCampoApi(deveExibir);
+
+    const campo = document.getElementById('api-key-input');
+    if (campo) {
+        campo.value = chave;
+    }
+}
+
 function mostrarMensagem(elemento, mensagem, tipo = 'info') {
     if (!elemento) {
         return;
@@ -248,6 +271,10 @@ async function buscarDetalhesMedicamento(registro) {
     });
 
     if (!resposta.ok) {
+        if (resposta.status === 401 || resposta.status === 403) {
+            setApiKey('');
+            atualizarVisibilidadeCampoApi();
+        }
         return null;
     }
 
@@ -303,8 +330,10 @@ async function consultarMedicamento() {
         if (!resposta.ok) {
             const erro = await resposta.json().catch(() => ({}));
             const codigoErro = erro.erro;
-            if (codigoErro === 'nao_autenticado' || codigoErro === 'chave_invalida') {
-                throw new Error('Chave inválida ou ausente. Configure a chave local da API antes de consultar medicamentos.');
+            if (codigoErro === 'nao_autenticado' || codigoErro === 'chave_invalida' || resposta.status === 401 || resposta.status === 403) {
+                setApiKey('');
+                atualizarVisibilidadeCampoApi();
+                throw new Error('Chave inválida ou expirada. Insira uma nova chave da API para continuar.');
             }
             throw new Error('Não foi possível realizar a consulta naquele momento.');
         }
@@ -485,10 +514,16 @@ function inicializarCampoApi() {
         return;
     }
 
+    atualizarVisibilidadeCampoApi();
     campo.value = getApiKey();
+
     botao.addEventListener('click', () => {
-        setApiKey(campo.value);
-        mostrarMensagem(document.getElementById('medicamento-status'), 'Chave da API salva localmente no navegador.', 'success');
+        const chave = String(campo.value || '').trim();
+        setApiKey(chave);
+        atualizarVisibilidadeCampoApi();
+        mostrarMensagem(document.getElementById('medicamento-status'), chave
+            ? 'Chave da API salva localmente no navegador.'
+            : 'Chave da API removida. Informe outra chave quando quiser continuar.', 'success');
     });
 }
 

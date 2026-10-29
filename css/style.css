@@ -799,6 +799,10 @@ h1 {
     margin-bottom: 24px;
 }
 
+.api-config-box.is-hidden {
+    display: none;
+}
+
 .api-config-box label {
     display: block;
     margin-bottom: 12px;

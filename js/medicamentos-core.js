@@ -20,6 +20,10 @@
         return Number.isInteger(numero) && numero > 0;
     }
 
+    function deveExibirCampoApi(chave) {
+        return !String(chave ?? '').trim();
+    }
+
     function encontrarClientesPorTermo(clientes, termo) {
         if (!Array.isArray(clientes)) {
             return [];
@@ -108,6 +112,7 @@
     const api = {
         normalizarTexto,
         validarIntervaloCompra,
+        deveExibirCampoApi,
         encontrarClientesPorTermo,
         montarPayloadMedicamento,
     };
