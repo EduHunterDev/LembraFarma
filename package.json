@@ -1,0 +1,30 @@
+{
+  "name": "lembrafarma",
+  "version": "1.0.0",
+  "description": "Esse nosso Projeto FrontEnd\r Lembrafarma é um projeto para gerencimento de medicamentos recorrentes para clientes\r ## Estrutura",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "type": "module",
+  "scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "test": "node tests/medicamentos-core.test.js"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.5"
+  }
+}
+
+

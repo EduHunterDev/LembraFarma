@@ -1,0 +1,20 @@
+# Dependências (recriadas com npm install)
+node_modules/
+
+# Build do Vite (gerado com npm run build)
+dist/
+
+# Variáveis de ambiente e segredos
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Arquivos do sistema
+.DS_Store
+
+# Editores
+.vscode/
