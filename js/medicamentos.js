@@ -1,3 +1,5 @@
+const DEFAULT_API_KEY = '7f33fbe87caceb2cf6e62813b9accdb3';
+
 const STORAGE_KEYS = {
     clientes: 'lembrafarma.clientes',
     medicamentos: 'lembrafarma.medicamentos',
@@ -59,16 +61,27 @@ function salvarMedicamento(payload) {
 }
 
 function getApiKey() {
-    return localStorage.getItem(STORAGE_KEYS.apiKey) || '';
+    const chaveSalva = localStorage.getItem(STORAGE_KEYS.apiKey);
+    if (chaveSalva && String(chaveSalva).trim()) {
+        return String(chaveSalva).trim();
+    }
+
+    return DEFAULT_API_KEY.trim() || '';
 }
 
 function setApiKey(chave) {
-    if (!chave || !String(chave).trim()) {
-        localStorage.removeItem(STORAGE_KEYS.apiKey);
+    const valor = String(chave || '').trim();
+
+    if (!valor) {
+        if (DEFAULT_API_KEY.trim()) {
+            localStorage.setItem(STORAGE_KEYS.apiKey, DEFAULT_API_KEY.trim());
+        } else {
+            localStorage.removeItem(STORAGE_KEYS.apiKey);
+        }
         return;
     }
 
-    localStorage.setItem(STORAGE_KEYS.apiKey, String(chave).trim());
+    localStorage.setItem(STORAGE_KEYS.apiKey, valor);
 }
 
 function mostrarMensagem(elemento, mensagem, tipo = 'info') {
@@ -78,6 +91,16 @@ function mostrarMensagem(elemento, mensagem, tipo = 'info') {
 
     elemento.textContent = mensagem;
     elemento.className = `status-message status-${tipo}`;
+}
+
+function atualizarVisibilidadeConfiguracaoApi() {
+    const box = document.querySelector('.api-config-box');
+    if (!box) {
+        return;
+    }
+
+    const chaveAtiva = getApiKey();
+    box.style.display = chaveAtiva ? 'none' : 'block';
 }
 
 function selecionarCliente(cliente) {
@@ -486,8 +509,17 @@ function inicializarCampoApi() {
     }
 
     campo.value = getApiKey();
+    atualizarVisibilidadeConfiguracaoApi();
+
     botao.addEventListener('click', () => {
-        setApiKey(campo.value);
+        const valor = String(campo.value || '').trim();
+        if (!valor) {
+            mostrarMensagem(document.getElementById('medicamento-status'), 'Informe a chave da API antes de salvar.', 'error');
+            return;
+        }
+
+        setApiKey(valor);
+        atualizarVisibilidadeConfiguracaoApi();
         mostrarMensagem(document.getElementById('medicamento-status'), 'Chave da API salva localmente no navegador.', 'success');
     });
 }
