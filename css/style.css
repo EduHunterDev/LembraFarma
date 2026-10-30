@@ -1106,7 +1106,7 @@ h1 {
     }
 }
 
-// Compra e Recompra
+/* Compra e Recompra */
 
 .page-heading p {
   color: var(--muted);
@@ -1187,7 +1187,7 @@ h1 {
   }
 }
 
-// Identidade visual do painel
+/* Identidade visual do painel */
 
 .app-topbar {
     display: flex;
