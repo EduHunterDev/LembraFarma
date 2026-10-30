@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Alertas from "./Alertas.jsx";
 
 
 const plans = [
@@ -601,6 +602,8 @@ export default function App() {
       <Route path="/funcionalidades" element={<HomePage />} />
       <Route path="/planos" element={<HomePage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/alertas" element={<Alertas />} />
+
     </Routes>
   );
 }
