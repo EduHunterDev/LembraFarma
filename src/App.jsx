@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Compras from "./pages/Compras.jsx";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Compras from "./pages/Compras.jsx";
 
@@ -595,13 +596,35 @@ function HomePage() {
   );
 }
 
+function ProtectedRoute({ children }) {
+  const authenticated =
+    sessionStorage.getItem("lembrafarma.authenticated") === "true";
+
+  useEffect(() => {
+    if (!authenticated) {
+      window.location.replace("/pages/lembrafarma_auth.html");
+    }
+  }, [authenticated]);
+
+  return authenticated ? children : null;
+}
+
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/funcionalidades" element={<HomePage />} />
       <Route path="/planos" element={<HomePage />} />
-      <Route path="/compras" element={<Compras />} />
+
+      <Route
+        path="/compras"
+        element={
+          <ProtectedRoute>
+            <Compras />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
