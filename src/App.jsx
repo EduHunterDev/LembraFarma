@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Compras from "./pages/Compras.jsx";
 
 
 const plans = [
@@ -479,6 +480,7 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/funcionalidades" element={<HomePage />} />
       <Route path="/planos" element={<HomePage />} />
+      <Route path="/compras" element={<Compras />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
