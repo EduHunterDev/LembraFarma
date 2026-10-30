@@ -11,7 +11,7 @@
   "dev": "vite",
   "build": "vite build",
   "preview": "vite preview",
-  "test": "node tests/medicamentos-core.test.js"
+  "test": "node tests/medicamentos-core.test.js && node tests/cpf.test.js"
 },
   "keywords": [],
   "author": "",

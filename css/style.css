@@ -668,11 +668,16 @@ h1 {
     box-shadow: 0 18px 38px rgba(14, 74, 70, 0.08);
 }
 
+.page-panel + .page-panel {
+    margin-top: 24px;
+}
+
 .page-heading {
     margin-bottom: 24px;
 }
 
-.page-heading h1 {
+.page-heading h1,
+.page-heading h2 {
     max-width: none;
     font-size: clamp(26px, 2vw, 38px);
 }
