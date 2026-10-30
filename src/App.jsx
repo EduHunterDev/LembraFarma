@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Compras from "./pages/Compras.jsx";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Compras from "./pages/Compras.jsx";
 
 
 const plans = [
@@ -54,43 +55,67 @@ const features = [
     title: "1. Lembretes automáticos de recompra",
     image: "/assets/Lembrete.png",
     alt: "Lembretes automáticos de recompra",
-    description:
-      "Essencial - Envio de lembretes pelo WhatsApp. - Cálculo da previsão de quando o medicamento acabará. - Mensagens personalizadas para cada cliente. - Agendamento dos lembretes por data.",
+    details: [
+      "Envio de lembretes pelo WhatsApp",
+      "Previsão de quando o medicamento acabará",
+      "Mensagens personalizadas para cada cliente",
+      "Agendamento dos lembretes por data",
+    ],
   },
   {
     title: "2. Gestão de clientes",
     image: "/assets/Clientes.jfif",
     alt: "Gestão de clientes da farmácia",
-    description:
-      "Essencial - Cadastro de nome, telefone e preferências. - Histórico de compras. - Identificação de clientes ativos e inativos. - Busca rápida de clientes cadastrados.",
+    details: [
+      "Cadastro de nome, telefone e preferências",
+      "Histórico de compras",
+      "Identificação de clientes ativos e inativos",
+      "Busca rápida de clientes cadastrados",
+    ],
   },
   {
     title: "3. Controle de produtos e compras",
     image: "/assets/Compras.jfif",
     alt: "Controle de produtos e compras",
-    description:
-      "Cadastro de medicamentos e produtos. Registro de compras realizadas. Estimativa de recompra com base no consumo informado. Consulta de disponibilidade de produtos, se integrada ao estoque.",
+    details: [
+      "Cadastro de medicamentos e produtos",
+      "Registro de compras realizadas",
+      "Estimativa de recompra com base no consumo informado",
+      "Consulta de disponibilidade, se integrada ao estoque",
+    ],
   },
   {
     title: "4. Assistente de inteligência artificial",
     image: "/assets/Gestao.jfif",
     alt: "Assistente de inteligência artificial",
-    description:
-      "Respostas para dúvidas frequentes. Informações sobre horário de funcionamento. Orientação sobre disponibilidade de produtos. Encaminhamento para um atendente humano.",
+    details: [
+      "Respostas para dúvidas frequentes",
+      "Informações sobre horário de funcionamento",
+      "Orientação sobre disponibilidade de produtos",
+      "Encaminhamento para um atendente humano",
+    ],
   },
   {
     title: "5. Relatórios e indicadores",
     image: "/assets/Gestao.jfif",
     alt: "Relatórios e indicadores da farmácia",
-    description:
-      "Total de clientes cadastrados. Lembretes enviados e pendentes. Taxa de respostas dos clientes. Clientes que voltaram a comprar. Desempenho das campanhas de relacionamento.",
+    details: [
+      "Total de clientes cadastrados",
+      "Lembretes enviados e pendentes",
+      "Taxa de respostas e clientes que voltaram a comprar",
+      "Desempenho das campanhas de relacionamento",
+    ],
   },
   {
     title: "6. Automação e configurações",
     image: "/assets/Lembrete.png",
     alt: "Automação e configurações",
-    description:
-      "Configuração dos horários de envio. Modelos de mensagens personalizadas. Controle de usuários e permissões. Integração com WhatsApp e outros sistemas compatíveis.",
+    details: [
+      "Configuração dos horários de envio",
+      "Modelos de mensagens personalizadas",
+      "Controle de usuários e permissões",
+      "Integração com WhatsApp e outros sistemas compatíveis",
+    ],
   },
 ];
 
@@ -258,6 +283,65 @@ function HomePage() {
         </section>
 
         <section className="page-shell">
+          <section className="py-8 sm:py-12" aria-labelledby="Funcionalidade">
+            <div className="mb-8 max-w-2xl sm:mb-10">
+              <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold tracking-wide text-teal-800 uppercase">
+                <span className="h-1.5 w-1.5 rounded-full bg-teal-500" aria-hidden="true" />
+                Tudo para sua farmácia
+              </span>
+              <h2
+                className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl"
+                id="Funcionalidade"
+              >
+                Funcionalidades
+              </h2>
+              <p className="mt-3 text-base leading-7 text-slate-600 sm:text-lg">
+                Ferramentas simples para cuidar melhor dos seus clientes e da
+                rotina da sua farmácia.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
+              {features.map((feature, index) => (
+                <article
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-teal-200 hover:shadow-xl hover:shadow-teal-950/5 sm:flex-row"
+                  key={feature.title}
+                >
+                  <div className="relative min-h-56 overflow-hidden bg-slate-50 sm:min-h-full sm:w-[38%] sm:shrink-0">
+                    <img
+                      className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      src={feature.image}
+                      alt={feature.alt}
+                      loading="lazy"
+                    />
+                    <span className="absolute left-4 top-4 inline-flex h-9 min-w-9 items-center justify-center rounded-full border border-white/70 bg-white/90 px-2 text-sm font-bold text-teal-800 shadow-sm backdrop-blur">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-5 sm:p-6">
+                    <h3 className="text-lg font-bold leading-snug text-slate-900 sm:text-xl">
+                      {feature.title.replace(/^\d+\.\s*/, "")}
+                    </h3>
+                    <ul className="mt-4 space-y-2.5">
+                      {feature.details.map((detail) => (
+                        <li
+                          className="flex items-start gap-2.5 text-sm leading-6 text-slate-600"
+                          key={detail}
+                        >
+                          <span
+                            className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-500"
+                            aria-hidden="true"
+                          />
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
           <section className="page-panel" aria-labelledby="plans-title">
             <div className="page-heading">
               <h1 id="plans-title">Planos de assinatura</h1>
@@ -285,10 +369,7 @@ function HomePage() {
                       <li key={benefit}>{benefit}</li>
                     ))}
                   </ul>
-                  <a
-                    className="button button-small"
-                    href={plan.href}
-                  >
+                  <a className="button button-small" href={plan.href}>
                     Assinar
                   </a>
                 </article>
@@ -296,33 +377,81 @@ function HomePage() {
             </div>
           </section>
 
-          <section aria-labelledby="Funcionalidade">
-            <h1 className="feature-details-title" id="Funcionalidade">
-              Funcionalidades
-            </h1>
-            <div className="feature-details">
-              {features.map((feature) => (
-                <section className="feature-detail" key={feature.title}>
-                  <div className="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-md md:max-w-2xl">
-                    <div className="md:flex">
-                      <div className="md:shrink-0">
-                        <img
-                          className="h-48 w-full object-cover md:h-full md:w-48"
-                          src={feature.image}
-                          alt={feature.alt}
-                        />
-                      </div>
-                      <div className="p-8">
-                        <div className="text-sm font-semibold tracking-wide text-indigo-500 uppercase">
-                          {feature.title}
-                        </div>
-                        <p className="mt-2 text-gray-500">
-                          {feature.description}
-                        </p>
-                      </div>
+          <section className="py-12 sm:py-16" aria-labelledby="testimonials-title">
+            <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2
+                  className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl"
+                  id="testimonials-title"
+                >
+                  Depoimentos
+                </h2>
+                <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
+                  Veja como o LembraFarma pode ajudar na rotina de uma farmácia.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+              {[
+                {
+                  name: "Farmácia Exemplo Vida",
+                  focus: "Mais proximidade com os clientes",
+                  quote:
+                    "Com os lembretes, ficou mais fácil manter contato com os clientes e ajudá-los a lembrar da hora de voltar.",
+                  initials: "EV",
+                  color: "bg-teal-100 text-teal-800",
+                },
+                {
+                  name: "Drogaria Modelo Central",
+                  focus: "Rotina mais organizada",
+                  quote:
+                    "Agora conseguimos visualizar melhor os cadastros e o histórico de compras em um só lugar.",
+                  initials: "MC",
+                  color: "bg-sky-100 text-sky-800",
+                },
+                {
+                  name: "Farmácia Exemplo Bem-Estar",
+                  focus: "Atendimento mais consistente",
+                  quote:
+                    "As mensagens programadas ajudam nossa equipe a manter um atendimento atencioso mesmo nos dias corridos.",
+                  initials: "BE",
+                  color: "bg-emerald-100 text-emerald-800",
+                },
+              ].map((testimonial) => (
+                <article
+                  className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg hover:shadow-teal-950/5 sm:p-7"
+                  key={testimonial.name}
+                >
+                  <span
+                    className="text-4xl font-serif leading-none text-teal-600"
+                    aria-hidden="true"
+                  >
+                    ”
+                  </span>
+                  <h3 className="mt-3 text-lg font-bold text-slate-900">
+                    {testimonial.focus}
+                  </h3>
+                  <blockquote className="mt-3 flex-1 text-sm leading-6 text-slate-600">
+                    “{testimonial.quote}”
+                  </blockquote>
+                  <div className="mt-6 flex items-center gap-3 border-t border-slate-100 pt-5">
+                    <span
+                      className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${testimonial.color}`}
+                      aria-hidden="true"
+                    >
+                      {testimonial.initials}
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">
+                        {testimonial.name}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        Farmácia fictícia · exemplo demonstrativo
+                      </p>
                     </div>
                   </div>
-                </section>
+                </article>
               ))}
             </div>
           </section>

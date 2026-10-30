@@ -674,40 +674,6 @@ h1 {
     gap: 18px;
 }
 
-.feature-details {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 1fr;
-    gap: 24px;
-    align-items: stretch;
-    margin: 24px 0;
-}
-
-.feature-details-title {
-    margin-top: 40px;
-    margin-bottom: 24px;
-}
-
-@media (max-width: 760px) {
-    .feature-details {
-        grid-template-columns: 1fr;
-    }
-}
-
-.feature-detail {
-    min-width: 0;
-}
-
-.feature-detail > div {
-    width: 100%;
-    max-width: none;
-    height: 100%;
-}
-
-.feature-detail > div > div {
-    height: 100%;
-}
-
 .plan-card {
     position: relative;
     padding: 24px;
