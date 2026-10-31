@@ -5,15 +5,12 @@ import { defineConfig } from "vite";
 const staticDirectories = [
   "assets",
   "css",
-  "js",
-  "pages",
-  "Ferramentas - Crie aqui",
 ];
 
 export default defineConfig({
   plugins: [
     {
-      name: "copy-static-pages",
+      name: "copy-static-assets",
       apply: "build",
       closeBundle() {
         const outputDirectory = resolve(process.cwd(), "dist");

@@ -1,0 +1,51 @@
+.auth-page {
+  min-height: 100vh;
+  background: #f3f6f8;
+  font-family: "Inter", sans-serif;
+}
+
+.auth-page .input-field {
+  transition: all 0.2s ease-in-out;
+}
+
+.auth-page .input-field:focus {
+  border-color: #005b60;
+  box-shadow: 0 0 0 3px rgb(0 91 96 / 15%);
+}
+
+.auth-page ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.auth-page ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #cbd5e1;
+}
+
+.auth-page .bg-brand-900 {
+  background-color: #0d3b43;
+}
+
+.auth-page .bg-brand-800 {
+  background-color: #005b60;
+}
+
+.auth-page .text-brand-900 {
+  color: #0d3b43;
+}
+
+.auth-page .text-brand-800 {
+  color: #005b60;
+}
+
+.auth-page .text-brand-700 {
+  color: #0f766e;
+}
+
+.auth-page .bg-brand-hover:hover {
+  background-color: #092d33;
+}
+
+.auth-page .focus\:ring-brand-800:focus {
+  --tw-ring-color: #005b60;
+}
