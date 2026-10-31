@@ -1,3 +1,5 @@
+import './medicamentos-core.js';
+
 const DEFAULT_API_KEY = '7f33fbe87caceb2cf6e62813b9accdb3';
 
 const STORAGE_KEYS = {
@@ -10,7 +12,14 @@ const state = {
     clienteSelecionado: null,
     medicamentoSelecionado: null,
     timeoutBusca: null,
+    controller: null,
 };
+
+function listen(element, eventName, handler) {
+    element?.addEventListener(eventName, handler, {
+        signal: state.controller.signal,
+    });
+}
 
 function getClientes() {
     try {
@@ -167,7 +176,7 @@ function renderListaClientes(clientes) {
         .join('');
 
     container.querySelectorAll('.client-option').forEach((button) => {
-        button.addEventListener('click', () => {
+        listen(button, 'click', () => {
             const id = button.dataset.clienteId;
             const cliente = getClientes().find((item) => item.id === id);
             if (cliente) {
@@ -355,7 +364,7 @@ async function consultarMedicamento() {
             .join('');
 
         lista.querySelectorAll('.medicine-option').forEach((botao) => {
-            botao.addEventListener('click', async () => {
+            listen(botao, 'click', async () => {
                 const registro = botao.dataset.registro;
                 const itemSelecionado = resultados.find((item) => item.registro === registro);
                 if (!itemSelecionado) {
@@ -490,7 +499,7 @@ function inicializarFormularioCliente() {
         return;
     }
 
-    input.addEventListener('input', () => {
+    listen(input, 'input', () => {
         if (state.timeoutBusca) {
             clearTimeout(state.timeoutBusca);
         }
@@ -511,7 +520,7 @@ function inicializarCampoApi() {
     campo.value = getApiKey();
     atualizarVisibilidadeConfiguracaoApi();
 
-    botao.addEventListener('click', () => {
+    listen(botao, 'click', () => {
         const valor = String(campo.value || '').trim();
         if (!valor) {
             mostrarMensagem(document.getElementById('medicamento-status'), 'Informe a chave da API antes de salvar.', 'error');
@@ -536,21 +545,21 @@ function inicializarFormularioMedicamento() {
         return;
     }
 
-    botaoBuscar.addEventListener('click', consultarMedicamento);
-    inputBusca.addEventListener('keydown', (event) => {
+    listen(botaoBuscar, 'click', consultarMedicamento);
+    listen(inputBusca, 'keydown', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
             consultarMedicamento();
         }
     });
 
-    botaoSalvar.addEventListener('click', (event) => {
+    listen(botaoSalvar, 'click', (event) => {
         event.preventDefault();
         salvarMedicamentoFormulario();
     });
 
     if (botaoCancelar) {
-        botaoCancelar.addEventListener('click', () => {
+        listen(botaoCancelar, 'click', () => {
             form.reset();
             state.medicamentoSelecionado = null;
             if (document.getElementById('medicamento-selecionado')) {
@@ -561,14 +570,14 @@ function inicializarFormularioMedicamento() {
     }
 
     if (botaoVoltar) {
-        botaoVoltar.addEventListener('click', () => {
+        listen(botaoVoltar, 'click', () => {
             window.history.back();
         });
     }
 
     const intervalo = form.querySelector('[name="intervaloCompra"]');
     if (intervalo) {
-        intervalo.addEventListener('change', () => {
+        listen(intervalo, 'change', () => {
             const valor = intervalo.value;
             const campoCustom = form.querySelector('[name="intervaloCustomizado"]');
             if (campoCustom) {
@@ -581,7 +590,9 @@ function inicializarFormularioMedicamento() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+export function inicializarMedicamentos() {
+    state.controller?.abort();
+    state.controller = new AbortController();
     ensureDemoClient();
     selecionarCliente(null);
     inicializarFormularioCliente();
@@ -596,4 +607,11 @@ document.addEventListener('DOMContentLoaded', () => {
             mostrarMensagem(status, 'Selecione um cliente e valide um medicamento para continuar.', 'info');
         }
     }
-});
+    return () => {
+        state.controller?.abort();
+        if (state.timeoutBusca) {
+            clearTimeout(state.timeoutBusca);
+            state.timeoutBusca = null;
+        }
+    };
+}
